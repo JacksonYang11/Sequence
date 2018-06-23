@@ -1,6 +1,7 @@
 #ifndef SEQUENCE_H
 #define SEQUENCE_H
 
+#include<string>
 class Sequence
 {
 
@@ -12,17 +13,5 @@ string longestRepeated();
 string all;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif
