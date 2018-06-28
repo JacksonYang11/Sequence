@@ -8,12 +8,12 @@ using namespace std;
 
 Sequence::Sequence(string filename)
 {
-ifstream fin(filename);
+char* f = (char*)filename.data();
+ifstream input(f);
 string s;
 
-while(getline(fin,s))
+while(getline(input,s))
 {
-s.erase(s.strlen()-1,1);
 all += s;
 }
 
@@ -21,13 +21,13 @@ all += s;
 
 int Sequence::length()
 {
-int length = all.strlen();
-return length;
+	int length = all.size();
+	return length;
 }
 
 int Sequence::numberOf(char base)
 {
-int num = count(all.begin(),all.end(),'base');
+int num = count(all.begin(),all.end(),base);
 return num;
 }
 
@@ -36,10 +36,11 @@ string Sequence::longestConsecutive()
 	int max = 1;
 	int cur = 1;
 	string maxValue;
-	for (int i = 0; i < all.size()-1; i++)
+      
+	for (int i = 0; i < all.size(); i++)
 	{
 		if (all.substr(i, 1) == all.substr(i + 1, 1))
-			cur++;
+			{cur++;}
 		else
 		{
 			if (max < cur)
@@ -50,8 +51,15 @@ string Sequence::longestConsecutive()
 			}
 		}
 	}
-	for (int j = 0; j < max; j++)
-		return maxValue;
+       
+	char *sequence=new char[max];
+        for (int j = 0; j < max; j++)
+	 {
+         sequence[j]=maxValue[0];
+         }
+        string seq=sequence;
+        delete []sequence;
+        return seq;
 }
 
 string Sequence::longestRepeated()
@@ -59,9 +67,9 @@ string Sequence::longestRepeated()
 	int length = 1;
 	int max = 1;
 	int pos = 0;
-	for (int i = 0; i < all.size() - 1; i++)
+	for (int i = 0; i < all.size(); i++)
 	{
-		for (int j = i+1; j < all.size() - i - 1; j++)
+		for (int j = i+1; j < all.size() - i; j++)
 		{
 			if (all.substr(j, 1) == all.substr(i, 1))
 			{
