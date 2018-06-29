@@ -67,11 +67,11 @@ string Sequence::longestConsecutive()
 string Sequence::longestRepeated()
 {
         int size = all.size();
-        vector<string> sequence(size);
+        char **sequence = new char*[size];
         for (int i=0;i<size;i++)
-            sequence[i] = all.substr(i,size-i);
+           sequence[i] = (char*)all.substr(i,size-i);
         
-        sort(sequence.begin(),sequence.end());
+        sort(*sequence[0],*sequence[size-1]);
         
         int maxLength = 0;
         int pos = 0;
@@ -85,15 +85,15 @@ string Sequence::longestRepeated()
            }
 
         }
-        
-        return sequence[pos].substr(0,maxLength);
+        string seq = *sequence[pos];
+        return seq.substr(0,maxLength);
 
 }
       
 
-        int Sequence::longest(string str1,string str2)
+        int Sequence::longest(char* str1,char* str2)
         {
-           int len = min(str1.size(),str2.size());
+           int len = min(strlen(str1),strlen(str2));
            for(int i = 0;i<len;i++)
            {
               if(str1[i] != str2[i])
