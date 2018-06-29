@@ -1,7 +1,7 @@
 #include<iostream>
 #include<fstream>
 #include<algorithm>
-#include<cmath>
+#include<vector>
 #include<string>
 #include"Sequence.h"
 using namespace std;
@@ -66,43 +66,40 @@ string Sequence::longestConsecutive()
 
 string Sequence::longestRepeated()
 {
-	int length = 1;
-	int max = 1;
-	int pos = 0;
-	for (int i = 0; i < all.size(); i++)
-	{
-		for (int j = i+1; j < all.size() - i; j++)
-		{
-			if (all.substr(j, 1) == all.substr(i, 1))
-			{
-				for (int m = j + 1; m < all.size() - j - 1; m++)
-				{
-					if (all.substr(m, 1) == all.substr(i + 1, 1))
-					{
-						length++;
-						i++;
-					}
-					else
-					{
-						if (max < length)
-						{
-							max = length;
-							pos = i;
-						}
-					}
-				}
+        int size = all.size();
+        vector<string> sequence(size);
+        for (int i=0;i<size;i++)
+            sequence[i] = all.substr(i,size-i);
+        
+        sort(sequence.begin(),sequence.end());
+        
+        int maxLength = 0;
+        int pos = 0;
+        for(int j=0;j<size-1;j++)
+        {
+           int length = longest(sequence[j],sequence[j+1]);
+           if(maxLength<length)
+           {
+              maxLength = length;
+              pos = j;
+           }
 
-			}
-		}
-	}
-	char *sequence = new char [length];
-        for (int k = pos; k < length+pos; k++)
-		{
-                 string maxVa = all.substr(k,1);
-                 sequence[k-pos]=maxVa[0];
-                }
-                 string seq = sequence;
-                 delete []sequence;
-                 return seq;
+        }
+        
+        return sequence[pos].substr(0,maxLength);
+
 }
+      
+
+        int Sequence::longest(string str1,string str2)
+        {
+           int len = min(str1.size(),str2.size());
+           for(int i = 0;i<len;i++)
+           {
+              if(str1[i] != str2[i])
+                return i;
+           }
+           return len;
+        }
+
 
