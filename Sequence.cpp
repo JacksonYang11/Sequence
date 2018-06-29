@@ -35,27 +35,29 @@ string Sequence::longestConsecutive()
 {
 	int max = 1;
 	int cur = 1;
-	string maxValue;
-      
-	for (int i = 0; i < all.size(); i++)
+	char maxValue;
+        char *first=(char*)all.data();
+        char *last=(char*)all.data();
+        while(*++last)
 	{
-		if (all.substr(i, 1) == all.substr(i + 1, 1))
+		if (*first == *last)
 			{cur++;}
 		else
 		{
 			if (max < cur)
 			{
 				max = cur;
-				maxValue = all.substr(i, 1);
-				cur = 1;
+				maxValue = first[0];
+		
 			}
+                        first=last;
+                        cur=1;
 		}
 	}
-       
 	char *sequence=new char[max];
         for (int j = 0; j < max; j++)
 	 {
-         sequence[j]=maxValue[0];
+         sequence[j]=maxValue;
          }
         string seq=sequence;
         delete []sequence;
@@ -93,7 +95,14 @@ string Sequence::longestRepeated()
 			}
 		}
 	}
-	for (int k = 0; k < length; k++)
-		return all.substr(k, 1);
+	char *sequence = new char [length];
+        for (int k = pos; k < length+pos; k++)
+		{
+                 string maxVa = all.substr(k,1);
+                 sequence[k-pos]=maxVa[0];
+                }
+                 string seq = sequence;
+                 delete []sequence;
+                 return seq;
 }
 
